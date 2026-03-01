@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://127.0.0.1:5000";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export interface LeadPayload {
   name: string;
@@ -54,20 +54,15 @@ export async function getAIInsights(leadId: number) {
   if (!res.ok) throw new Error("Failed to load insights");
   return res.json();
 }
+
 export async function getAnalytics() {
-  const res = await fetch("http://127.0.0.1:5000/analytics");
+  const res = await fetch(`${API_BASE_URL}/analytics`);
   if (!res.ok) throw new Error("Failed to fetch analytics");
   return res.json();
 }
+
 export async function getActivities() {
-  const res = await fetch("http://127.0.0.1:5000/activities");
+  const res = await fetch(`${API_BASE_URL}/activities`);
   if (!res.ok) throw new Error("Failed to load activity");
   return res.json();
-}
-export function logout() {
-  localStorage.removeItem("user");
-}
-
-export function isLoggedIn(): boolean {
-  return !!localStorage.getItem("user");
 }
