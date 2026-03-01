@@ -1,4 +1,4 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL + "/api";
 
 export interface LeadPayload {
   name: string;
@@ -12,6 +12,7 @@ export interface LeadPayload {
 
 export async function getLeads() {
   const res = await fetch(`${API_BASE_URL}/leads`);
+  if (!res.ok) throw new Error("Failed to fetch leads");
   return res.json();
 }
 
@@ -21,6 +22,7 @@ export async function createLead(data: LeadPayload) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   });
+  if (!res.ok) throw new Error("Failed to create lead");
   return res.json();
 }
 
@@ -28,16 +30,19 @@ export async function deleteLead(id: number) {
   const res = await fetch(`${API_BASE_URL}/leads/${id}`, {
     method: "DELETE",
   });
+  if (!res.ok) throw new Error("Failed to delete lead");
   return res.json();
 }
 
 export async function getDashboardStats() {
   const res = await fetch(`${API_BASE_URL}/dashboard`);
+  if (!res.ok) throw new Error("Failed to load dashboard");
   return res.json();
 }
 
 export async function getDashboardCharts() {
   const res = await fetch(`${API_BASE_URL}/dashboard/charts`);
+  if (!res.ok) throw new Error("Failed to load charts");
   return res.json();
 }
 
